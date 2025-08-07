@@ -39,15 +39,16 @@ pub fn update_viewport(
     iced_settings: Res<IcedSettings>,
     mut commands: Commands,
 ) {
-    let window = windows.single();
-    let scale_factor = iced_settings
-        .scale_factor
-        .unwrap_or_else(|| window.scale_factor().into());
-    let viewport = Viewport::with_physical_size(
-        Size::new(window.physical_width(), window.physical_height()),
-        scale_factor,
-    );
-    commands.insert_resource(ViewportResource(viewport));
+    if let Ok(window) = windows.get_single() {
+        let scale_factor = iced_settings
+            .scale_factor
+            .unwrap_or_else(|| window.scale_factor().into());
+        let viewport = Viewport::with_physical_size(
+            Size::new(window.physical_width(), window.physical_height()),
+            scale_factor,
+        );
+        commands.insert_resource(ViewportResource(viewport));
+    }
 }
 
 // Same as DidDraw, but as a regular bool instead of an atomic.
