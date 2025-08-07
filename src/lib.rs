@@ -311,6 +311,10 @@ impl<M: bevy_ecs::event::Event> IcedContext<'_, '_, M> {
 
         let element = element.into();
 
+        if self.windows.get_single().is_err() {
+            return;
+        }
+
         let cursor = {
             let window = self.windows.single();
             match window.cursor_position() {
